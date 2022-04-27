@@ -12,8 +12,6 @@ app.use('/api', router);
 
 app.use(express.static('public'));
 
-app.set('view engine', 'hbs');
-app.set('views', './views');
 
 /*
 app.get('/', function (req, res) {
@@ -23,11 +21,38 @@ app.get('/', function (req, res) {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 app.get('/', (req, res) => {
     res.render('main', {layout : 'index'});
     });
     
 
+
+    
 
 
 
@@ -40,12 +65,21 @@ app.engine(
         partialsDir: __dirname + "/views/partials/"
     })
 );
+app.set('view engine', 'hbs');
+app.set('views', './views');
+
 
 const server = app.listen(8080, () => {
     console.log('La aplicacion express esta escuchando en el puerto 8080')
 })
 
+
+
+
+
+
 // GET Devuelve todos los productos
+
 
 router.get('/productos', (req, resp) => {
     let disponibles = productos.getAll()
@@ -55,10 +89,9 @@ router.get('/productos', (req, resp) => {
 
 
 
-
 // GET Devuelve por ID
 
-
+/*
 router.get('/productos/:id', (req, resp) => {
     let seleccion = productos.getById(parseInt(req.params.id))
 
@@ -76,7 +109,7 @@ router.get('/productos/:id', (req, resp) => {
 
     }
 })
-
+*/
 
 
 
@@ -87,10 +120,8 @@ router.post('/productos', (req, resp) => {
     let disponibles = productos.getAll();
     let ultimo = disponibles[new_index];
 
+    resp.redirect('/')
 
-    resp.json({
-        agregado: ultimo,
-    });
 })
 
 
@@ -115,6 +146,19 @@ router.delete('/productos/:id', (req, resp) => {
         id: req.params.id
     });
 })
+
+
+
+router.get('/productos/vista', (req, resp) => {
+    let prods = productos.getAll()
+
+    resp.render("vista", {
+        products: prods,
+        hayProductos: prods.length
+    });
+});
+
+
 
 
 
